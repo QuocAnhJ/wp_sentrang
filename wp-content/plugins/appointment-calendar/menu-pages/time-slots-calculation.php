@@ -127,7 +127,7 @@ if($TodaysAllDayEvent) {
     $AppointmentTableName = $wpdb->prefix."ap_appointments";
 
     $AllAppointmentsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time` FROM `$AppointmentTableName` WHERE `date`= %s",$AppointmentDate), OBJECT);
-	
+    
     if($AllAppointmentsData) {
         foreach($AllAppointmentsData as $Appointment) {
 
@@ -329,7 +329,8 @@ if($TodaysAllDayEvent) {
             }
         }
 
-        $DisableSlotsTimes = array_merge($AppBetweenTimes, $AppPreviousTimes, $EventPreviousTimes, $EventBetweenTimes, $BusinessEndCheck);
+        //$DisableSlotsTimes = array_merge($AppBetweenTimes, $AppPreviousTimes, $EventPreviousTimes, $EventBetweenTimes, $BusinessEndCheck);
+        $DisableSlotsTimes = array_merge($EventPreviousTimes, $EventBetweenTimes, $BusinessEndCheck);
         unset($AppBetweenTimes);
         unset($AppPreviousTimes);
         unset($AppNextTimes);

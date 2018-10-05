@@ -21,6 +21,7 @@ if ( !current_user_can( 'manage_options' ) )  {
         $ClientName = sanitize_text_field( $_GET['name'] );
         $ClientEmail = sanitize_email( $_GET['email'] );
         $ClientPhone = intval( $_GET['phone'] );
+        $ClientGuessNo = intval( $_GET['guess_no'] );
         $ClientNote = sanitize_text_field( $_GET['desc'] );
         $StartTime = sanitize_text_field( $_GET['start_time'] );
         //calculate end time according to service duration
@@ -30,7 +31,7 @@ if ( !current_user_can( 'manage_options' ) )  {
         $AppointmentBy = "admin";
 
         $AppointmentTable = $wpdb->prefix . "ap_appointments";
-        if($wpdb->query( $wpdb->prepare( "INSERT INTO `$AppointmentTable` (  `id` , `name` , `email` , `service_id` , `phone` , `start_time` , `end_time` , `date` , `note` , `appointment_key` , `status` , `appointment_by` ) VALUES (NULL , '$ClientName', '$ClientEmail', '$ServiceId', '$ClientPhone', '$StartTime', '$EndTime', '$AppointmentDate', '$ClientNote', '$AppointmentKey', '$Status', %s);" , $AppointmentBy ) )) {
+        if($wpdb->query( $wpdb->prepare( "INSERT INTO `$AppointmentTable` (  `id` , `name` , `email` , `service_id` , `phone` , `start_time` , `end_time` , `date` , `note` , `appointment_key` , `status` , `client_guess_no` , `appointment_by`  ) VALUES (NULL , '$ClientName', '$ClientEmail', '$ServiceId', '$ClientPhone', '$StartTime', '$EndTime', '$AppointmentDate', '$ClientNote', '$AppointmentKey', '$Status', '$ClientGuessNo', %s);" , $AppointmentBy ) )) {
 
             $BlogName = get_bloginfo();
 

@@ -46,7 +46,13 @@ if ( !current_user_can( 'manage_options' ) )  {
                             <td valign="top"><strong>:</strong></td>
                             <td valign="top">
                                 <input name="phone" type="text" class="inputwidth" id="phone" maxlength="12"/>
-                                <br/><label><?php _e("Eg : 1234567890", "appointzilla"); ?></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th valign="top" scope="row" ><?php _e("Number of guess", "appointzilla"); ?></th>
+                            <td valign="top"><strong>:</strong></td>
+                            <td valign="top">
+                                <input name="guessNo" type="text" class="inputwidth" id="guessNo" maxlength="2"/>
                             </td>
                         </tr>
                         <tr>

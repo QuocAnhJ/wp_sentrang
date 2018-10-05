@@ -310,6 +310,18 @@ function checkvalidation() {
             return false;
         }
     }
+
+    var guessNo = jQuery("#guessNo").val();
+    if(guessNo == '') {
+        jQuery("#guessNo").after("<span class='error'><p><strong><?php echo __('Number of guess required.', 'appointzilla'); ?></strong></p></span>");
+        return false;
+    } else {
+        var guessNo = isNaN(guessNo);
+        if(guessNo == true) {
+            jQuery("#guessNo").after("<span class='error'><p><strong><?php echo __('Invalid number of guess.', 'appointzilla'); ?></strong></p></span>");
+            return false;
+        }
+    }
 	
 	var wp_nonce = jQuery("#appointment_register_nonce_check").val();
 	
@@ -317,6 +329,7 @@ function checkvalidation() {
     var name = jQuery("#name").val();
     var email = jQuery("#email").val();
     var phone = jQuery("#phone").val();
+    var guessNo = jQuery("#guessNo").val();
     var desc = jQuery("#desc").val();
     var bookdate = jQuery("#appointmentdate").val();
     var serviceduration = jQuery("#serviceduration").val();
@@ -324,8 +337,8 @@ function checkvalidation() {
     jQuery('#loading2').show();     // display scheduling icon  after click on book button
     jQuery('#booknowapp').hide();   // hide book now button
     jQuery('#back').hide();         // hide back button after click on book button
-
-    var PostData = 'bookdate='+ bookdate + '&serviceid=' + serviceid + '&name='+ name +'&email=' + email +'&phone='  + phone + '&desc=' +desc+ '&start_time=' + start_time + '&serviceduration=' + serviceduration + '&wp_nonce=' + wp_nonce;
+    console.log(guessNo);
+    var PostData = 'bookdate='+ bookdate + '&serviceid=' + serviceid + '&name='+ name +'&email=' + email +'&phone='  + phone + '&desc=' +desc+ '&start_time=' + start_time + '&serviceduration=' + serviceduration + '&wp_nonce=' + wp_nonce + '&guess_no=' + guessNo;
     var url = "?page=data-save";
     jQuery.ajax({
         dataType : 'html',

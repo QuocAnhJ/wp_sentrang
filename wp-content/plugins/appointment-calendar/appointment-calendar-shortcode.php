@@ -33,6 +33,8 @@ function appointzilla_appointment_calendar_shortcode() {
 		
         $ClientPhone     =   intval(              $_POST['Client_Phone'] );
 		
+        $ClientGuessNo   =   intval(              $_POST['Client_Guess_No'] );
+		
         $ClientNote      =   sanitize_text_field( $_POST['Client_Note']  );
 		
         $AppointmentDate =   date("Y-m-d", strtotime( sanitize_text_field( $_POST['AppDate'] )  ) );
@@ -63,9 +65,9 @@ function appointzilla_appointment_calendar_shortcode() {
 			"
 			INSERT INTO $AppointmentsTable 
 		
-			( id , name , email , service_id , phone , start_time , end_time , date , note , appointment_key , status , appointment_by )
+			( id , name , email , service_id , phone , start_time , end_time , date , note , appointment_key , status , appointment_by, client_guess_no )
 		
-			VALUES ( %d , %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+			VALUES ( %d , %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 			
 			",
 				array(
@@ -80,7 +82,8 @@ function appointzilla_appointment_calendar_shortcode() {
 					$ClientNote,
 					$AppointmentKey,
 					$Status,
-					$AppointmentBy
+                    $AppointmentBy,
+                    $ClientGuessNo
 				)
 			)
 
@@ -492,6 +495,14 @@ function appointzilla_appointment_calendar_shortcode() {
                 jQuery("#clientphone").after("<span class='apcal-error'><p><strong><?php _e("Invalid phone number.", "appointzilla"); ?></strong></p></span>");
                 return false;
             }
+
+            if( !jQuery('#guessno').val() ) {
+                jQuery("#guessno").after("<span class='apcal-error'><br><strong><?php _e("Number of guess required.", "appointzilla"); ?></strong></span>");
+                return false;
+            } else if(isNaN( jQuery('#guessno').val() )) {
+                jQuery("#guessno").after("<span class='apcal-error'><p><strong><?php _e("Invalid number of guess.", "appointzilla"); ?></strong></p></span>");
+                return false;
+            }
         });
 
         //back button show first modal
@@ -542,6 +553,14 @@ function appointzilla_appointment_calendar_shortcode() {
             return false;
         } else if(isNaN( jQuery('#clientphone').val() )) {
             jQuery("#clientphone").after("<span class='apcal-error'><br><strong><?php _e("Invalid phone number.", "appointzilla"); ?></strong></span>");
+            return false;
+        }
+		
+         if( !jQuery('#guessno').val() ) {
+            jQuery("#guessno").after("<span class='apcal-error'><br><strong><?php _e("Number of guess required.", "appointzilla"); ?></strong></span>");
+            return false;
+        } else if(isNaN( jQuery('#guessno').val() )) {
+            jQuery("#guessno").after("<span class='apcal-error'><br><strong><?php _e("Invalid number of guess.", "appointzilla"); ?></strong></span>");
             return false;
         }
 		
@@ -1082,8 +1101,11 @@ function appointzilla_appointment_calendar_shortcode() {
                                 <td align="left" scope="row"><strong><?php _e("Phone", "appointzilla"); ?></strong></td>
                                 <td align="center" valign="top"><strong>:</strong></td>
                                 <td><input name="clientphone" type="text" id="clientphone" maxlength="12" height="30px;" style="height:30px;" />
-                            <br/>
-                            <label><?php _e("Eg: 1234567890", "appointzilla"); ?></label></td>
+                            </tr>
+                            <tr>
+                                <td align="left" scope="row"><strong><?php _e("Number of guess", "appointzilla"); ?></strong></td>
+                                <td align="center" valign="top"><strong>:</strong></td>
+                                <td><input name="guessno" type="text" id="guessno" maxlength="2" height="30px;" style="height:30px;" />
                             </tr>
                             <tr>
                                 <td align="left" valign="middle" scope="row"><strong><?php _e("Special Instruction", "appointzilla"); ?></strong></td>

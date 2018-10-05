@@ -57,6 +57,12 @@ if(isset($_GET['updateid'])) {
                 <td><strong>:</strong></td>
                 <td><input name="appphone" type="text" id="appphone"  value="<?php echo esc_attr($Appointment->phone); ?>" class="inputheight"/ maxlength="12">&nbsp;<a href="#" rel="tooltip" title="<?php _e("Client Phone Number", "appointzilla"); ?>" ><i class="icon-question-sign"></i></a></td>
             </tr>
+            </tr>
+                <tr>
+                <th scope="row"><strong><?php _e("Numer of guess", "appointzilla"); ?></strong></th>
+                <td><strong>:</strong></td>
+                <td><input name="appguessno" type="text" id="appguessno"  value="<?php echo esc_attr($Appointment->client_guess_no); ?>" class="inputheight"/ maxlength="12">&nbsp;<a href="#" rel="tooltip" title="<?php _e("Client Phone Number", "appointzilla"); ?>" ><i class="icon-question-sign"></i></a></td>
+            </tr>
             <tr>
                 <th scope="row"><strong><?php _e("Start Time", "appointzilla"); ?></strong></th>
                 <td><strong>:</strong></td>
@@ -173,6 +179,19 @@ jQuery(document).ready(function () {
             }
         }
 
+         //guessno
+        var appguessno = jQuery("#appguessno").val();
+        if(appguessno == '') {
+            jQuery("#appguessno").after('<span class="error"><br><strong><?php _e("Number of guess field cannot be blank.", "appointzilla"); ?></strong></span>');
+            return false;
+        } else {
+            var appguessno = isNaN(appguessno);
+            if(appguessno == true) {
+                jQuery("#appguessno").after('<span class="error"><br><strong><?php _e("Invalid number of guess.", "appointzilla"); ?></strong></span>');
+                return false;
+            }
+        }
+
         //start time
         var start_time = jQuery("#start_time").val();
         if(start_time == ''){
@@ -231,6 +250,7 @@ if(isset($_POST['updateppointments'])) {
     $ClientName = sanitize_text_field( $_POST['appname'] );
     $ClientEmail = sanitize_email( $_POST['appemail'] );
     $ClientPhone = intval( $_POST['appphone'] );
+    $ClientGuessNo = intval( $_POST['appguessno'] );
     $ClientNote = sanitize_text_field( $_POST['app_desc'] );
     $ServiceId = intval( $_POST['serviceid'] );
     $StartTime = sanitize_text_field( $_POST['start_time'] );
@@ -251,6 +271,7 @@ if(isset($_POST['updateppointments'])) {
         `date` = '$AppointmentDate',
         `note` = '$ClientNote',
         `status` = '$Status',
+        `client_guess_no` = '$ClientGuessNo',
         `appointment_by` = '$AppointmentBy' WHERE `id` =%s;",$UpdateAppId))) {
         //send notification to client if appointment approved or cancelled
         if($Status == 'approved' || $Status == 'cancelled' ) {
@@ -386,6 +407,11 @@ if(isset($_POST['updateppointments'])) {
             <th scope="row"><?php _e("Phone", "appointzilla"); ?></th>
             <td><strong>:</strong></td>
             <td><em><?php echo esc_html($Appointment->phone); ?></em></td>
+        </tr>
+        <tr>
+            <th scope="row"><?php _e("Number of guess", "appointzilla"); ?></th>
+            <td><strong>:</strong></td>
+            <td><em><?php echo esc_html($Appointment->client_guess_no); ?></em></td>
         </tr>
         <tr>
             <th scope="row"><?php _e("Start Time", "appointzilla"); ?></th>
